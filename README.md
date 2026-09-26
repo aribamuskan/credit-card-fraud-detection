@@ -1,0 +1,304 @@
+# 💳 Credit Card Fraud Detection
+
+A Machine Learning project that detects potentially fraudulent credit card transactions using classification algorithms and provides real-time predictions through a Streamlit web application.
+
+---
+
+## 📌 Project Overview
+
+Credit card fraud detection is a **binary classification** problem where a transaction is classified as either:
+
+- `0` → Normal Transaction
+- `1` → Fraudulent Transaction
+
+The goal of this project is to build a complete Machine Learning pipeline that can analyze transaction characteristics and predict whether a transaction is potentially fraudulent.
+
+This project covers the complete workflow from **data understanding and preprocessing to model training, evaluation, threshold tuning, model saving, and deployment**.
+
+---
+
+## 🎯 Project Objectives
+
+- Understand the transaction dataset
+- Perform data preprocessing
+- Handle an imbalanced classification problem
+- Train multiple Machine Learning classification models
+- Evaluate model performance using multiple metrics
+- Compare different models
+- Perform threshold tuning
+- Analyze the Precision-Recall relationship
+- Save the trained model
+- Create a real-time prediction system
+- Deploy the model using Streamlit
+
+---
+
+## 📊 Dataset
+
+The dataset contains **5,000 synthetic credit card transactions** created for educational and Machine Learning practice purposes.
+
+### Dataset Features
+
+| Feature | Description |
+|---|---|
+| `transaction_id` | Unique transaction identifier |
+| `amount` | Transaction amount |
+| `hour` | Hour at which the transaction occurred |
+| `distance_from_home_km` | Distance of transaction from customer's home |
+| `transactions_last_24h` | Number of transactions in the last 24 hours |
+| `card_present` | Whether the physical card was present |
+| `international_transaction` | Whether the transaction was international |
+| `new_device` | Whether a new device was used |
+| `failed_attempts` | Number of failed attempts |
+| `fraud` | Target variable |
+
+### Target Variable
+
+```text
+0 = Normal Transaction
+1 = Fraudulent Transaction
+📊 Class Distribution
+
+The dataset contains:
+
+Normal Transactions      = 4776 (95.52%)
+Fraudulent Transactions  = 224  (4.48%)
+
+Because fraudulent transactions represent a small portion of the dataset, this is an imbalanced classification problem.
+
+🔄 Machine Learning Workflow
+Dataset
+   ↓
+Data Understanding
+   ↓
+Data Preprocessing
+   ↓
+Train/Test Split
+   ↓
+Model Training
+   ↓
+Model Evaluation
+   ↓
+Model Comparison
+   ↓
+Threshold Tuning
+   ↓
+Precision-Recall Analysis
+   ↓
+Final Model
+   ↓
+Model Saving
+   ↓
+New Transaction Prediction
+   ↓
+Streamlit Web Application
+🧹 Data Preprocessing
+
+The following preprocessing steps were performed:
+
+Removed transaction_id because it is an identifier and does not provide useful predictive information.
+Separated features (X) and target (y).
+Checked for missing values.
+Checked for duplicate rows.
+Used an 80/20 train-test split.
+Used stratify=y to preserve the fraud/normal class distribution.
+Used class_weight="balanced" during model training to give more importance to the minority fraud class.
+Train/Test Split
+Training Data = 4000 rows
+Testing Data  = 1000 rows
+🤖 Machine Learning Models
+
+Three classification algorithms were trained and compared.
+
+1. Logistic Regression
+
+Used as a linear classification model for predicting the probability of fraud.
+
+2. Decision Tree
+
+Used to learn decision rules from transaction features.
+
+3. Random Forest
+
+An ensemble model consisting of multiple decision trees.
+
+📈 Model Evaluation
+
+The models were evaluated using:
+
+Accuracy
+Precision
+Recall
+F1-Score
+ROC-AUC
+Confusion Matrix
+Classification Report
+
+Because the dataset is imbalanced, Accuracy alone was not considered sufficient for evaluating fraud detection performance.
+
+📊 Model Results
+Model	Accuracy	Precision	Recall	F1-Score	ROC-AUC
+Logistic Regression	82.2%	17.56%	80.00%	0.288	0.878
+Decision Tree	93.8%	20.69%	13.33%	0.162	0.555
+Random Forest	95.2%	42.11%	17.78%	0.250	0.842
+🧮 Logistic Regression Confusion Matrix
+[[786 169]
+ [  9  36]]
+
+For the fraud class:
+
+True Positives = 36
+False Negatives = 9
+False Positives = 169
+True Negatives = 786
+🎚️ Threshold Tuning
+
+The Logistic Regression model was further analyzed using different probability thresholds.
+
+The default classification threshold was:
+
+0.50
+
+Different thresholds were tested to study the trade-off between precision and recall.
+
+The threshold producing the highest F1-score in this experiment was approximately:
+
+0.75
+Results at Threshold 0.75
+Precision = 32.86%
+Recall    = 51.11%
+F1-Score  = 0.40
+
+Threshold tuning demonstrated that changing the decision threshold can significantly change the balance between detecting fraudulent transactions and generating false alerts.
+
+📉 Precision-Recall Analysis
+
+A Precision-Recall curve was generated to analyze the relationship between:
+
+Precision
+Recall
+
+The Average Precision obtained in this experiment was approximately:
+
+0.408
+💾 Model Saving
+
+The final trained model and required information were saved using joblib.
+
+Saved files:
+
+fraud_detection_model.pkl
+fraud_detection_features.pkl
+fraud_detection_threshold.pkl
+
+These files allow the application to make predictions without retraining the model every time.
+
+🔮 New Transaction Prediction
+
+The trained model was tested on a new transaction.
+
+Example transaction:
+
+Amount                  = 850
+Hour                    = 2
+Distance From Home      = 450 km
+Transactions Last 24h  = 8
+Card Present            = No
+International           = Yes
+New Device              = Yes
+Failed Attempts         = 3
+
+The model produced a very high fraud probability and classified the transaction as:
+
+🚨 FRAUD
+🌐 Streamlit Web Application
+
+A Streamlit web application was created to provide an interactive interface for the trained Machine Learning model.
+
+The user can enter:
+
+Transaction amount
+Transaction hour
+Distance from home
+Transactions in the last 24 hours
+Card presence
+International transaction status
+New device status
+Failed attempts
+
+The application then displays:
+
+Fraud probability
+Fraud/Normal prediction
+Decision threshold
+🖥️ Run the Application
+
+First install the required libraries:
+
+pip install -r requirements.txt
+
+Then run:
+
+streamlit run app.py
+
+The application will open in the browser.
+
+📁 Project Structure
+Credit_Card_Fraud/
+│
+├── credit_card_fraud_data.csv
+├── fraud_detection.py
+├── app.py
+├── requirements.txt
+├── README.md
+├── .gitignore
+│
+├── fraud_detection_model.pkl
+├── fraud_detection_features.pkl
+└── fraud_detection_threshold.pkl
+🛠️ Technologies Used
+Python
+Pandas
+NumPy
+Scikit-learn
+Matplotlib
+Joblib
+Streamlit
+📚 Machine Learning Concepts Practiced
+
+This project helped practice:
+
+Binary Classification
+Imbalanced Classification
+Data Preprocessing
+Train/Test Split
+Logistic Regression
+Decision Tree
+Random Forest
+Accuracy
+Precision
+Recall
+F1-Score
+ROC-AUC
+Confusion Matrix
+Classification Report
+Probability Prediction
+Threshold Tuning
+Precision-Recall Curve
+Model Persistence
+Streamlit Deployment
+⚠️ Disclaimer
+
+This project uses a synthetic dataset created for educational, learning, and portfolio practice purposes.
+
+It is not a production-ready financial fraud detection system and should not be used for real financial decisions without proper validation, security testing, monitoring, and domain-specific data.
+
+👩‍💻 Author
+
+Ariba Muskan
+
+Software Engineering Student | Machine Learning Enthusiast
+
+⭐ Project Summary
+
+This project demonstrates an end-to-end Machine Learning workflow for a real-world-style fraud detection problem, including model development, evaluation, threshold optimization, model persistence, and deployment through a web application.
